@@ -4,5 +4,8 @@
   "main": "index.js",
   "repository": "git@github.com:tacyarg/uwebsockets-web.git",
   "author": "Jacob Dent <jdent@tacyarg.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "uWebSockets.js": "uNetworking/uWebSockets.js#v15.4.0"
+  }
 }
