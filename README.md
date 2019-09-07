@@ -1,4 +1,4 @@
-# @tacyarg/actions
+# actions-http
 
 Abstraction of the uWebSockets lib, provides a simple http interface with json parsing.
 
@@ -7,7 +7,7 @@ Abstraction of the uWebSockets lib, provides a simple http interface with json p
 # Interface
 
 ```
-yarn add @tacyarg/actions
+yarn add actions-http
 ```
 
 ## Setup
