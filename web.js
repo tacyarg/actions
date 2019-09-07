@@ -1,9 +1,6 @@
 const uWS = require('uWebSockets.js')
 const assert = require('assert')
 const { readJson } = require('./utils')
-const url = require('url')
-const qs = require('querystring');
-
 
 module.exports = ({ port=9001 }, actions) => {
   assert(actions, 'actions required.')
