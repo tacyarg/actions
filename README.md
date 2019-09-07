@@ -1,10 +1,14 @@
-# uWebSockets-web
+# @tacyarg/actions
 
 Abstraction of the uWebSockets lib, provides a simple http interface with json parsing.
 
 > Offical Client: https://github.com/uNetworking/uWebSockets.js/blob/master/README.md
 
 # Interface
+
+```
+yarn add @tacyarg/actions
+```
 
 ## Setup
 > Below is a simple use case of the client.
