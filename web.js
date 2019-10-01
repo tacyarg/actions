@@ -11,7 +11,17 @@ module.exports = ({ port=9001 }, actions) => {
     // passphrase: '1234',
   })
 
+  app.get('/*', (res, req) => {
+    /* Wildcards - make sure to catch them last */
+    res.writeHeader('Access-Control-Allow-Origin', '*')
+    res.writeHeader('Content-Type', 'application/json')
+    res.end(JSON.stringify(Object.keys(actions)))
+  })
+
   app.get('/:action', async (res, req) => {
+    res.writeHeader('Access-Control-Allow-Origin', '*')
+    res.writeHeader('Content-Type', 'application/json')
+
     res.onAborted(() => {
       res.aborted = true
     })
@@ -27,13 +37,14 @@ module.exports = ({ port=9001 }, actions) => {
     const result = await actions[action]().then(JSON.stringify)
 
     if (!res.aborted) {
-      res.writeHeader('Access-Control-Allow-Origin', '*')
-      res.writeHeader('Content-Type', 'application/json')
       res.end(result)
     }
   })
 
   app.post('/:action', async (res, req) => {
+    res.writeHeader('Access-Control-Allow-Origin', '*')
+    res.writeHeader('Content-Type', 'application/json')
+
     res.onAborted(() => {
       res.aborted = true
     })
@@ -45,8 +56,6 @@ module.exports = ({ port=9001 }, actions) => {
       const params = await readJson(res)
       console.log('POST', 'calling action', action, params)
       const result = await actions[action](params).then(JSON.stringify)
-      res.writeHeader('Access-Control-Allow-Origin', '*')
-      res.writeHeader('Content-Type', 'application/json')
       res.end(result)
     } catch (e) {
       res.writeStatus('500')
@@ -54,13 +63,6 @@ module.exports = ({ port=9001 }, actions) => {
       // res.close()
       return
     }
-  })
-
-  app.get('/*', (res, req) => {
-    /* Wildcards - make sure to catch them last */
-    res.writeHeader('Access-Control-Allow-Origin', '*')
-    res.writeHeader('Content-Type', 'application/json')
-    res.end(JSON.stringify(Object.keys(actions)))
   })
 
   app.listen(port, token => {
