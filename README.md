@@ -29,7 +29,7 @@ const config {
 }
 
 // start the server
-const web = require('uWebSockets-web')(config, actions)
+const web = require('actions-http')(config, actions)
 ```
 
 ## Call
