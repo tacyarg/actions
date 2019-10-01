@@ -1,6 +1,6 @@
 {
   "name": "actions-http",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "main": "index.js",
   "repository": "git@github.com:tacyarg/actions-http.git",
   "author": "Jacob Dent <jdent@tacyarg.com>",
