@@ -2,7 +2,7 @@ const uWS = require('uWebSockets.js')
 const assert = require('assert')
 const { readJson } = require('./utils')
 
-module.exports = ({ port=9001 }, actions) => {
+module.exports = ({ port = 9001 }, actions) => {
   assert(actions, 'actions required.')
 
   const app = uWS.App({
@@ -13,10 +13,12 @@ module.exports = ({ port=9001 }, actions) => {
 
   app.get('/:action', async (res, req) => {
     res.writeHeader('Access-Control-Allow-Origin', '*')
-    // res.writeHeader('Content-Type', 'application/json')
+    res.writeHeader('Content-Type', 'application/json')
 
     res.onAborted(() => {
+      console.log("aborted.")
       res.aborted = true
+      res.close()
     })
 
     const action = req.getParameter(0)
@@ -26,20 +28,28 @@ module.exports = ({ port=9001 }, actions) => {
     // const params = qs.parse(query)
     // console.log(params)
 
-    console.log('GET', 'calling action', action)
-    const result = await actions[action]().then(JSON.stringify)
-
-    if (!res.aborted) {
-      res.end(result)
+    try {
+      // const params = await readJson(res)
+      console.log('GET', 'calling action', action)
+      const result = await actions[action]().then(JSON.stringify)
+      if (!res.aborted) {
+        res.end(result)
+      }
+    } catch (e) {
+      console.error(e)
+      res.writeStatus('500')
+      res.end(e.message)
     }
   })
 
   app.post('/:action', async (res, req) => {
     res.writeHeader('Access-Control-Allow-Origin', '*')
-    // res.writeHeader('Content-Type', 'application/json')
+    res.writeHeader('Content-Type', 'application/json')
 
     res.onAborted(() => {
+      console.log("aborted.")
       res.aborted = true
+      res.close()
     })
 
     const action = req.getParameter(0)
@@ -49,12 +59,13 @@ module.exports = ({ port=9001 }, actions) => {
       const params = await readJson(res)
       console.log('POST', 'calling action', action, params)
       const result = await actions[action](params).then(JSON.stringify)
-      res.end(result)
+      if (!res.aborted) {
+        res.end(result)
+      }
     } catch (e) {
+      console.error(e)
       res.writeStatus('500')
       res.end(e.message)
-      // res.close()
-      return
     }
   })
 

@@ -24,7 +24,7 @@ exports.readJson = res =>
             /* res.close calls onAborted */
             // res.close()
             // return
-            return reject(e)
+            return resolve({})
           }
           resolve(json)
         }

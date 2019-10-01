@@ -8,7 +8,7 @@ const actions = {
   },
   async getStats(params) {
     return {
-      profit: 1337
+      balance: 1337
     }
   }
 }
