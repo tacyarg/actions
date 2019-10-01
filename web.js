@@ -27,7 +27,7 @@ module.exports = ({ port=9001 }, actions) => {
     // console.log(params)
 
     console.log('GET', 'calling action', action)
-    const result = await actions[action]().then(JSON.stringify)
+    const result = await actions[action]()
 
     if (!res.aborted) {
       res.end(result)
@@ -48,7 +48,7 @@ module.exports = ({ port=9001 }, actions) => {
     try {
       const params = await readJson(res)
       console.log('POST', 'calling action', action, params)
-      const result = await actions[action](params).then(JSON.stringify)
+      const result = await actions[action](params)
       res.end(result)
     } catch (e) {
       res.writeStatus('500')
