@@ -11,13 +11,6 @@ module.exports = ({ port=9001 }, actions) => {
     // passphrase: '1234',
   })
 
-  app.get('/*', (res, req) => {
-    /* Wildcards - make sure to catch them last */
-    res.writeHeader('Access-Control-Allow-Origin', '*')
-    res.writeHeader('Content-Type', 'application/json')
-    res.end(JSON.stringify(Object.keys(actions)))
-  })
-
   app.get('/:action', async (res, req) => {
     res.writeHeader('Access-Control-Allow-Origin', '*')
     res.writeHeader('Content-Type', 'application/json')
@@ -63,6 +56,13 @@ module.exports = ({ port=9001 }, actions) => {
       // res.close()
       return
     }
+  })
+
+  app.get('/*', (res, req) => {
+    /* Wildcards - make sure to catch them last */
+    res.writeHeader('Access-Control-Allow-Origin', '*')
+    res.writeHeader('Content-Type', 'application/json')
+    res.end(JSON.stringify(Object.keys(actions)))
   })
 
   app.listen(port, token => {
