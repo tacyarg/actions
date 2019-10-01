@@ -24,7 +24,7 @@ const actions = {
   }
 }
 
-const config {
+const config = {
   port: 9001
 }
 
