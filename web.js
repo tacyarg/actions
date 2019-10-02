@@ -13,7 +13,7 @@ module.exports = ({ port = 9001 }, actions) => {
 
   app.get('/:action', async (res, req) => {
     res.writeHeader('Access-Control-Allow-Origin', '*')
-    res.writeHeader('Content-Type', 'application/json')
+    // res.writeHeader('Content-Type', 'application/json')
 
     res.onAborted(() => {
       console.log("aborted.")
@@ -33,6 +33,7 @@ module.exports = ({ port = 9001 }, actions) => {
       console.log('GET', 'calling action', action)
       const result = await actions[action]({}).then(JSON.stringify)
       if (!res.aborted) {
+        res.writeHeader('Access-Control-Allow-Origin', '*')
         res.end(result)
       }
     } catch (e) {
@@ -44,7 +45,7 @@ module.exports = ({ port = 9001 }, actions) => {
 
   app.post('/:action', async (res, req) => {
     res.writeHeader('Access-Control-Allow-Origin', '*')
-    res.writeHeader('Content-Type', 'application/json')
+    // res.writeHeader('Content-Type', 'application/json')
 
     res.onAborted(() => {
       console.log("aborted.")
@@ -61,6 +62,7 @@ module.exports = ({ port = 9001 }, actions) => {
       console.log('POST', 'calling action', action, params)
       const result = await actions[action](params).then(JSON.stringify)
       if (!res.aborted) {
+        res.writeHeader('Access-Control-Allow-Origin', '*')
         res.end(result)
       }
     } catch (e) {
@@ -72,7 +74,7 @@ module.exports = ({ port = 9001 }, actions) => {
 
   app.get('/*', (res, req) => {
     res.writeHeader('Access-Control-Allow-Origin', '*')
-    res.writeHeader('Content-Type', 'application/json')
+    // res.writeHeader('Content-Type', 'application/json')
     res.end(JSON.stringify(Object.keys(actions)))
   })
 
