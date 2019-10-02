@@ -5,35 +5,28 @@ const { readJson } = require('./utils')
 module.exports = ({ port = 9001 }, actions) => {
   assert(actions, 'actions required.')
 
-  const app = uWS.App({
-    // key_file_name: 'misc/key.pem',
-    // cert_file_name: 'misc/cert.pem',
-    // passphrase: '1234',
-  })
+  const app = uWS.App()
 
   app.get('/:action', async (res, req) => {
     res.writeHeader('Access-Control-Allow-Origin', '*')
-    // res.writeHeader('Content-Type', 'application/json')
 
     res.onAborted(() => {
       console.log("aborted.")
       res.aborted = true
-      res.close()
+      // res.close()
     })
 
     const action = req.getParameter(0)
     if (!actions[action]) return res.end(`Invalid Action: ${action}`)
 
-    // const query = req.getQuery().replace(/^.*\?/, '')
-    // const params = qs.parse(query)
-    // console.log(params)
+    const query = req.getQuery().replace(/^.*\?/, '')
+    const params = qs.parse(query)
+    console.log(params)
 
     try {
-      // const params = await readJson(res)
       console.log('GET', 'calling action', action)
-      const result = await actions[action]({}).then(JSON.stringify)
+      const result = await actions[action]().then(JSON.stringify)
       if (!res.aborted) {
-        res.writeHeader('Access-Control-Allow-Origin', '*')
         res.end(result)
       }
     } catch (e) {
@@ -45,12 +38,11 @@ module.exports = ({ port = 9001 }, actions) => {
 
   app.post('/:action', async (res, req) => {
     res.writeHeader('Access-Control-Allow-Origin', '*')
-    // res.writeHeader('Content-Type', 'application/json')
 
     res.onAborted(() => {
       console.log("aborted.")
       res.aborted = true
-      res.close()
+      // res.close()
     })
 
     const action = req.getParameter(0)
@@ -62,7 +54,6 @@ module.exports = ({ port = 9001 }, actions) => {
       console.log('POST', 'calling action', action, params)
       const result = await actions[action](params).then(JSON.stringify)
       if (!res.aborted) {
-        res.writeHeader('Access-Control-Allow-Origin', '*')
         res.end(result)
       }
     } catch (e) {
@@ -74,7 +65,7 @@ module.exports = ({ port = 9001 }, actions) => {
 
   app.get('/*', (res, req) => {
     res.writeHeader('Access-Control-Allow-Origin', '*')
-    // res.writeHeader('Content-Type', 'application/json')
+    res.writeHeader('Content-Type', 'application/json')
     res.end(JSON.stringify(Object.keys(actions)))
   })
 
