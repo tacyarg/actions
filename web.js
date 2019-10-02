@@ -56,8 +56,9 @@ module.exports = ({ port = 9001 }, actions) => {
     if (!actions[action]) return res.end(`Invalid Action: ${action}`)
 
     try {
-      const params = await readJson(res)
-      console.log('POST', 'calling action', action, params={})
+      let params = await readJson(res)
+      params ? params : {}
+      console.log('POST', 'calling action', action, params)
       const result = await actions[action](params).then(JSON.stringify)
       if (!res.aborted) {
         res.end(result)
@@ -70,9 +71,8 @@ module.exports = ({ port = 9001 }, actions) => {
   })
 
   app.get('/*', (res, req) => {
-    /* Wildcards - make sure to catch them last */
     res.writeHeader('Access-Control-Allow-Origin', '*')
-    // res.writeHeader('Content-Type', 'application/json')
+    res.writeHeader('Content-Type', 'application/json')
     res.end(JSON.stringify(Object.keys(actions)))
   })
 

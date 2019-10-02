@@ -6,7 +6,8 @@ const actions = {
   async echo(params) {
     return params
   },
-  async getStats(params) {
+  async getMyStats({token}) {
+    console.log(token)
     return {
       balance: 1337
     }
