@@ -1,11 +1,16 @@
 {
   "name": "actions-http",
-  "version": "1.0.13",
+  "version": "2.0.13",
   "main": "index.js",
   "repository": "git@github.com:tacyarg/actions-http.git",
   "author": "Jacob Dent <jdent@tacyarg.com>",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-bearer-token": "^2.4.0",
     "uWebSockets.js": "uNetworking/uWebSockets.js#v15.4.0"
   }
 }

@@ -1,8 +1,6 @@
 # actions-http
 
-Abstraction of the uWebSockets lib, provides a simple http interface with json parsing.
-
-> Offical Client: https://github.com/uNetworking/uWebSockets.js/blob/master/README.md
+Provides a simple http interface with json parsing.
 
 # Interface
 

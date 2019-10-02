@@ -11,6 +11,11 @@ const actions = {
     return {
       balance: 1337
     }
+  },
+  async listUsers() {
+    return [
+      {username: 'tacyarg'}
+    ]
   }
 }
 

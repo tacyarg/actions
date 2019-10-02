@@ -1,3 +1,36 @@
+exports.CleanStack = (ignore = []) => (stack, start = 0, end) => {
+  return stack
+    .split('\n')
+    .slice(start, end)
+    .filter(line => {
+      return ignore.reduce((result, regex) => {
+        return result && !regex.test(line)
+      }, true)
+    })
+    .join('\n')
+}
+
+const cleanStack = exports.CleanStack([
+  /node_modules/,
+  /streamify/,
+  /calls\.js/,
+  /client\.js/,
+  /mock\.js/,
+  /\<anonymous\>/,
+  /\internal\/process/,
+])
+
+exports.cleanStack = cleanStack
+
+exports.parseError = ({ message = '', stack = '', code = '' } = {}) => {
+  // assert(err.message, 'requires error message')
+  return {
+    message: message,
+    code: code || null,
+    stack: cleanStack(stack || ''),
+  }
+}
+
 exports.readJson = res =>
   new Promise((resolve, reject) => {
     let buffer
@@ -24,7 +57,8 @@ exports.readJson = res =>
             /* res.close calls onAborted */
             // res.close()
             // return
-            return resolve({})
+            return reject(e)
+            // return resolve({})
           }
           resolve(json)
         }
