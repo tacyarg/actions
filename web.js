@@ -21,7 +21,7 @@ module.exports = async (config, actions) => {
   app.use(cookieParser(config.secret))
   app.use(bearerToken())
 
-  app.options('*', cors())
+//   app.options('*', cors())
 
   app.get('/favicon.ico', (req, res) => res.status(204))
 
@@ -55,7 +55,7 @@ module.exports = async (config, actions) => {
       req.headers['x-real-ip'] ||
       req.connection.remoteAddress
     console.log(ip, 'requesting', req.params.action, req.body)
-
+    
     const action = req.params.action
     if (!actions[action]) return next('Action does not exist.')
     return actions[action](req.body)
